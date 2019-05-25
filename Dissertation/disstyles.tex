@@ -34,6 +34,7 @@
 \clubpenalty=10000      % Запрещаем разрыв страницы после первой строки абзаца
 \widowpenalty=10000     % Запрещаем разрыв страницы после последней строки абзаца
 \brokenpenalty=4991     % Ограничение на разрыв страницы, если строка заканчивается переносом
+\parindent=1.25cm
 
 %%% Блок управления параметрами для выравнивания заголовков в тексте %%%
 \newlength{\otstuplen}
@@ -101,7 +102,7 @@
 %%% Оформление заголовков глав, разделов, подразделов %%%
 %% Работа должна быть выполнена ... размером шрифта 12-14 пунктов (ГОСТ Р 7.0.11-2011, 5.3.8). То есть не должно быть надписей шрифтом более 14. Так и поставим.
 %% Эти установки будут давать одинаковый результат независимо от выбора базовым шрифтом 12 пт или 14 пт
-\newcommand{\basegostsectionfont}{\fontsize{14pt}{16pt}\selectfont\bfseries}
+\newcommand{\basegostsectionfont}{\fontsize{14pt}{14pt}\selectfont\bfseries}
 
 \makechapterstyle{thesisgost}{%
     \chapterstyle{default}
@@ -158,10 +159,10 @@
 
 %%% Блок дополнительного управления размерами заголовков
 \ifnumequal{\value{headingsize}}{1}{% Пропорциональные заголовки и базовый шрифт 14 пт
-    \renewcommand{\basegostsectionfont}{\large\bfseries}
-    \renewcommand*{\chapnamefont}{\Large\bfseries}
-    \renewcommand*{\chapnumfont}{\Large\bfseries}
-    \renewcommand*{\chaptitlefont}{\Large\bfseries}
+    \renewcommand{\basegostsectionfont}{\bfseries}
+    \renewcommand*{\chapnamefont}{\bfseries}
+    \renewcommand*{\chapnumfont}{\bfseries}
+    \renewcommand*{\chaptitlefont}{\bfseries}
 }{}
 
 %%% Счётчики %%%
