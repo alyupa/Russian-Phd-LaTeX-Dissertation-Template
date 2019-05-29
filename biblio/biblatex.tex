@@ -56,9 +56,6 @@ sorting=none,% настройка сортировки списка литера
 %%% Подключение файлов bib %%%
 \addbibresource[label=bl-external]{biblio/external.bib}
 \addbibresource[label=bl-authorvak]{biblio/authorvak.bib}
-\addbibresource[label=bl-authorscopus]{biblio/authorscopus.bib}
-\addbibresource[label=bl-authorwos]{biblio/authorwos.bib}
-\addbibresource[label=bl-authorother]{biblio/authorother.bib}
 \addbibresource[label=bl-authorconf]{biblio/authorconf.bib}
 
 
@@ -81,9 +78,6 @@ sorting=none,% настройка сортировки списка литера
         }
         \map[overwrite, refsection=0]{% стираем значения всех полей addendum
             \perdatasource{biblio/authorvak.bib}
-            \perdatasource{biblio/authorscopus.bib}
-            \perdatasource{biblio/authorwos.bib}
-            \perdatasource{biblio/authorother.bib}
             \perdatasource{biblio/authorconf.bib}
             \step[fieldsource=addendum, final]
             \step[fieldset=addendum, null] %чтобы избавиться от информации об объёме авторских статей, в отличие от автореферата
@@ -125,18 +119,6 @@ sorting=none,% настройка сортировки списка литера
         \map[overwrite]{ % добавляем ключевые слова, чтобы различать источники
             \perdatasource{biblio/authorvak.bib}
             \step[fieldset=keywords, fieldvalue={biblioauthorvak,biblioauthor,bibliofull}]
-        }
-        \map[overwrite]{ % добавляем ключевые слова, чтобы различать источники
-            \perdatasource{biblio/authorscopus.bib}
-            \step[fieldset=keywords, fieldvalue={biblioauthorscopus,biblioauthor,bibliofull}]
-        }
-        \map[overwrite]{ % добавляем ключевые слова, чтобы различать источники
-            \perdatasource{biblio/authorwos.bib}
-            \step[fieldset=keywords, fieldvalue={biblioauthorwos,biblioauthor,bibliofull}]
-        }
-        \map[overwrite]{ % добавляем ключевые слова, чтобы различать источники
-            \perdatasource{biblio/authorother.bib}
-            \step[fieldset=keywords, fieldvalue={biblioauthorother,biblioauthor,bibliofull}]
         }
         \map[overwrite]{ % добавляем ключевые слова, чтобы различать источники
             \perdatasource{biblio/authorconf.bib}
@@ -363,9 +345,6 @@ sorting=none,% настройка сортировки списка литера
     \section*{\bibtitleauthor}
     \printbibliography[heading=pubsubgroup, section=1, keyword=biblioauthorvak,    title=\bibtitleauthorvak]%
     \printbibliography[heading=pubsubgroup, section=1, keyword=biblioauthorwos,    title=\bibtitleauthorwos]%
-    \printbibliography[heading=pubsubgroup, section=1, keyword=biblioauthorscopus, title=\bibtitleauthorscopus]%
-    \printbibliography[heading=pubsubgroup, section=1, keyword=biblioauthorconf,   title=\bibtitleauthorconf]%
-    \printbibliography[heading=pubsubgroup, section=1, keyword=biblioauthorother,  title=\bibtitleauthorother]%
 }
 
 \newcommand*{\insertbiblioexternal}{
