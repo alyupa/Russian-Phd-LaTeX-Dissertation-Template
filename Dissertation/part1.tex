@@ -1,3 +1,92 @@
-\chapter{Модель} \label{ch:ch1}
+\chapter{Математическая модель многофазного течения в пористой среде} \label{ch:ch1}
 
-\section{Модель} \label{sec:ch1/sec1}
+\newcommand*{\pd}[3][]{\ensuremath{\dfrac{\partial^{#1} #2}{\partial #3^{#1}}}}
+\newcommand*{\dd}[3][]{\ensuremath{\dfrac{\mathrm d^{#1} #2}{\mathrm d #3^{#1}}}}
+\newcommand{\grad}{\mathop{\mathrm{grad}}\nolimits}
+\newcommand{\diver}{\mathop{\mathrm{div}}\nolimits}
+
+В работе проводится моделирование двухфазной и трехфазной фильтрации
+несмешивающихся жидкостей и газа с учетом их сжимаемости. Скелет породы считаем неподвижным, пористость и плотность породы -- постоянными во всем рассматриваемом объеме, среду -- изотропной, жидкие фазы -- слабосжимаемыми, газ -- идеальным.
+
+\section{Классическая модель фильтрации} \label{sec:ch1/sec1}
+
+Приведем классическую модель. Система уравнений для описания двухфазной изотермической фильтрации в пористой среде
+может быть представлена в виде~\cite{Aziz-Settari},~\cite{Basniev}:
+\begin{subequations} \label{eq:classic_system}
+  \begin{align}[left = \empheqlbrace\,]
+    &\pd {(\phi \rho_i S_i)}{t} + \diver{(\rho_i \overrightarrow{u_i})} = q_i, \label{eq:classic_system1} \\
+    &\overrightarrow{u_i} = -\frac{K k_i}{\mu_i}(\grad {P_i} - {\rho}_i g \grad {z}), \label{eq:classic_system2} \\
+    &P_n = P_w + P_{cnw}({S}_w), \label{eq:classic_system3} \\
+    &\sum_{i}S_i = 1, \label{eq:classic_system4} \\
+    &k_i = k_i({S}_i), \label{eq:classic_system5} \\
+    &\rho_i = \rho_i(P_i), \label{eq:classic_system6} \\
+    &i = w,n \nonumber .
+  \end{align}
+\end{subequations}
+
+Здесь 
+$P_i$ -- давление фазы,
+$P_{cnw}$ -- капиллярное давление на границе раздела фаз,
+$S_i$ -- насыщенность фазы,
+${\rho}_i$ -- плотность фазы,
+$q_i$ -- источниковые члены,
+$K$ -- абсолютная проницаемость среды,
+$\phi$ -- пористость среды,
+$\overrightarrow{u_i}$ -- скорость фильтрации фазы,
+$\mu_i$ -- вязкость фазы,
+$k_i$ -- относительная фазовая проницаемость,
+$g$ -- ускорение свободного падения,
+\eqref{eq:classic_system1} -- уравнения неразрывности,
+\eqref{eq:classic_system2} -- закон Дарси,
+\eqref{eq:classic_system3} -- связь давлений фаз,
+\eqref{eq:classic_system4} -- связь насыщенностей фаз,
+\eqref{eq:classic_system5} -- уравнения относительных фазовых проницаемостей,
+\eqref{eq:classic_system6} -- уравнения состояния.
+
+Относительные фазовые проницаемости определяются в~работе в~соответствии с~
+приближением Стоуна\cite{Aziz-Settari}.
+Для описания капиллярных давлений выбрана приближенная модель Паркера\cite{Parker}.
+
+В модели трехфазной фильтрации $i = w,n,g$, система дополняется уравнением $P_g = P_n + P_{cgn}({S}_g)$.
+
+\section{Гиперболическая КГД модель фильтрации} \label{sec:ch1/sec2}
+
+При построении гиперболической модели вместо \eqref{eq:classic_system1} строится модифицированное уравнение неразрывности по аналогии с~квазигазодинамической системой уравнений~\cite{Chetverushkin-Mathmod}):
+\begin{equation}
+ \label{mass_mod}
+  \frac{\partial (\phi \rho_i S_i)}{\partial t}+ div(\rho_i \overrightarrow{u_i}) = q_i + l c_i \cdot div(grad(\rho_i S_i)),
+\end{equation}
+где $l$ - характерный масштаб (расстояние порядка сотни размеров зерен породы~\cite{Chetverushkin}),
+$c_i$ - скорость распространения звука в $i$-ой среде.
+
+В \cite{Mathmod-2010},\cite{Mathmod-2011} были предложены модели одно- и двухфазной фильтрации, основанные на~кинетическом подходе. В~данной работе предложена аналогичная модель трехфазной фильтрации.
+
+\section{Гиперболическая модель фильтрации, учитывающая релаксацию потока массы} \label{sec:ch1/sec3}
+
+Перейдем к построению гиперболической модели, учитывающей релаксацию потока массы. 
+Запишем уравнение~\eqref{eq:classic_system1} кратко в виде
+\begin{equation} \label{eq:short_system}
+   \pd{(\phi \rho_i S_i)}{t} + \diver{ \overrightarrow{Q_i}} = q_i, i = w,n,
+\end{equation}
+где $\overrightarrow{Q_i}$ -- поток массы фазы.
+Пусть $\overrightarrow{Q_i^D} = \rho_i \overrightarrow{u_i}$ -- поток Дарси.
+В модели~\eqref{eq:classic_system} $\overrightarrow{Q_i} = \overrightarrow{Q_i^D}$.
+Введем релаксацию потока, положим
+\begin{equation}
+ \overrightarrow{Q_i} = \overrightarrow{Q_i^D} - \tau \pd{\overrightarrow{Q_i}}{t},
+\end{equation}
+где $\tau$ -- параметр релаксации, довольно малая величина, характеризующая время установления равновесия в системе. Откуда следует, что
+\begin{equation} \label{eq:div_relax}
+ \diver{\overrightarrow{Q_i}} = \diver{\overrightarrow{Q_i^D}} - \tau \diver{\pd{\overrightarrow{Q_i}}{t}}.
+\end{equation}
+
+Продифференцируем по времени уравнения~\eqref{eq:short_system} и домножим на $\tau$:
+\begin{equation}
+  \tau \pd[2]{(\phi \rho_i S_i)}{t} + \tau \pd{(\diver{ \overrightarrow{Q_i}})}{t} = \tau \pd{q_i}{t}.
+\end{equation}
+
+С учетом~\eqref{eq:div_relax} от~\eqref{eq:short_system} перейдем к конечному виду модифицированного уравнения неразрывности путем введения релаксации потока массы:
+
+\begin{equation} \label{eq:mod_system}
+  \tau \pd[2]{(\phi \rho_i S_i)}{t} + \pd{(\phi \rho_i S_i)}{t} + \diver{ \overrightarrow{Q_i^D}} = q_i + \tau \pd{q_i}{t}.
+\end{equation}
