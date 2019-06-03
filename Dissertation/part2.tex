@@ -39,6 +39,130 @@ $P_g$ через $P_w$ и капиллярные давления.
 \item с центральными разностями.
 \end{itemize}
 
+Рассмотрим подробнее шаг~\ref{Newton}. В каждом расчетном узле возникает 
+нелинейная система уравнений.
+Находим решение методом Ньютона~\cite{Kalitkin} за семь
+итераций. Каждая итерация 
+представляет собой следующую последовательность действий:
+\begin{eqnarray*}
+  \begin{aligned}
+    F_1=\ &\rho_w(P_w, T) S_w - (\widehat{\rho_w S_w}) \\
+    F_2=\ &\rho_n(P_w+P_{cnw}(S_w)) S_n - (\widehat{\rho_n S_n}) \\
+    F_3=\ &\rho_g(P_w+P_{cnw}(S_w)+P_{cgn}(S_g)) S_g - (\widehat{\rho_g S_g}) \\
+    F_4=\ & m \Big{(}S_w \big{(}\rho_w(P_w, T) H_w(T) - P_w\big{)} \\
+	 &+ S_n \big{(}\rho_n(P_w+P_{cnw}(S_w), T) H_n(T) - P_w - P_{cnw}(S_w)\big{)} \\
+	 &+ S_g \big{(}\rho_g(P_w+P_{cnw}(S_w)+P_{cgn}(S_g), T) H_g(T) - P_w - P_{cnw}(S_w) - P_{cgn}(S_g)\big{)}
+	 \Big{)}\\
+	 &+ (1-m) (\rho_r H_r - P_w) - \widehat{E} \\
+    F_5=\ &S_w+S_n+S_g - 1
+  \end{aligned}
+\end{eqnarray*}
+\begin{equation}
+A=
+\begin{pmatrix}
+\dfrac{\partial{F_1}}{\partial{P_w}} & \dfrac{\partial{F_1}}{\partial{S_w}} & \dfrac{\partial{F_1}}{\partial{S_n}} & \dfrac{\partial{F_1}}{\partial{S_g}} & \dfrac{\partial{F_1}}{\partial{T}}\\[3mm]
+\dfrac{\partial{F_2}}{\partial{P_w}} & \dfrac{\partial{F_2}}{\partial{S_w}} & \dfrac{\partial{F_2}}{\partial{S_n}} & \dfrac{\partial{F_2}}{\partial{S_g}} & \dfrac{\partial{F_2}}{\partial{T}}\\[3mm]
+\dfrac{\partial{F_3}}{\partial{P_w}} & \dfrac{\partial{F_3}}{\partial{S_w}} & \dfrac{\partial{F_3}}{\partial{S_n}} & \dfrac{\partial{F_3}}{\partial{S_g}} & \dfrac{\partial{F_3}}{\partial{T}}\\[3mm]
+\dfrac{\partial{F_4}}{\partial{P_w}} & \dfrac{\partial{F_4}}{\partial{S_w}} & \dfrac{\partial{F_4}}{\partial{S_n}} & \dfrac{\partial{F_4}}{\partial{S_g}} & \dfrac{\partial{F_4}}{\partial{T}}\\[3mm]
+\dfrac{\partial{F_5}}{\partial{P_w}} & \dfrac{\partial{F_5}}{\partial{S_w}} & \dfrac{\partial{F_5}}{\partial{S_n}} & \dfrac{\partial{F_5}}{\partial{S_g}} & \dfrac{\partial{F_5}}{\partial{T}}\\[3mm]
+\end{pmatrix}
+\end{equation}
+
+Тогда
+
+\begin{equation}
+\begin{pmatrix}
+P_w\\
+S_w\\
+S_n\\
+S_g\\
+T
+\end{pmatrix}^{new}
+=
+\begin{pmatrix}
+P_w\\
+S_w\\
+S_n\\
+S_g\\
+T
+\end{pmatrix}
+-A^{-1}
+\begin{pmatrix}
+F_1\\
+F_2\\
+F_3\\
+F_4\\
+F_5
+\end{pmatrix}
+\end{equation}\\
+
+Обращаем матрицу $A$ методом Гаусса с~выбором главного элемента\cite{Kalitkin}.
+
 \section{Алгоритм расчета модели фильтрации с релаксацией потока массы} \label{sec:ch2/sec3}
 
-Алгоритм расчета модели фильтрации с релаксацией потока массы аналогичен описанному в~\ref{sec:ch2/sec2}, за исключением того, что в рамках данной работы, он были применен к двухфазной модели фильтрации и для нахождения среднего давления из системы уравнений~\eqref{eq:mod_system} используется трехслойная явная разностная схема с центральными разностями. 
+Рассмотрим двухфазную модели фильтрации~\eqref{eq:mod_system}.
+
+Пусть 
+\begin{subequations} \label{eq:subs}
+  \begin{align}
+    &q_t = \dfrac{q_n}{\rho_n} + \dfrac{q_w}{\rho_w}, \\
+    &P_{avg} = \dfrac{P_n + P_w}{2}, \\
+    &P_n = P_{avg} + \dfrac{P_c}{2},
+     P_w = P_{avg} - \dfrac{P_c}{2}, \\
+    &c_n = \dfrac{1}{\rho_n} \dd{\rho_n}{P_n},
+     c_w = \dfrac{1}{\rho_w} \dd{\rho_w}{P_w}, \\
+    &\lambda_n = -\dfrac{K k_n}{\mu_n},
+     \lambda_w = -\dfrac{K k_w}{\mu_w}, \\
+    & f_w = \dfrac{\lambda_w}{\lambda_n + \lambda_w},
+      h_w = - \dfrac{\lambda_n\lambda_w}{\lambda_n + \lambda_w} \dd{P_c}{S_w}, \\
+    & \overrightarrow{u_t} = \overrightarrow{u_n} + \overrightarrow{u_w}.
+  \end{align}
+\end{subequations}
+
+Вспомогательные выкладки:
+\begin{equation} \label{eq:calcs1}
+ \begin{aligned}
+  \pd[2]{(\phi \rho_i S_i)}{t} &= \rho_i S_i \pd[2]{\phi}{t} + \phi S_i \pd[2]{\rho_i}{t} + \phi \rho_i \pd[2]{S_i}{t} + \\
+  &+ 2S_i \pd{\phi}{t} \cdot \pd{\rho_i}{t} + 2\rho_i \pd{\phi}{t} \cdot \pd{S_i}{t} + 2\phi \pd{\rho_i}{t} \cdot \pd{S_i}{t} = \\
+  &= \rho_i S_i \left(  \dd[2]{\phi}{P_{avg}} \cdot {\left( \pd{P_{avg}}{t}\right) }^2 + \dd{\phi}{P_{avg}} \cdot \pd[2]{P_{avg}}{t} \right) +\\
+  &+ \phi S_i \left( \dd[2]{\rho_i}{P_i} \cdot {\left( \pd{P_i}{t}\right) }^2 + \dd{\rho_i}{P_i} \cdot \pd[2]{P_i}{t} \right) + \phi \rho_i \pd[2]{S_i}{t} +\\
+  &+ 2S_i \dd{\phi}{P_{avg}} \cdot \pd{P_{avg}}{t} \cdot \dd{\rho_i}{P_i} \cdot \pd{P_i}{t} + 2\rho_i \dd{\phi}{P_{avg}} \cdot \pd{P_{avg}}{t} \cdot \pd{S_i}{t} +\\
+  &+ 2\phi \dd{\rho_i}{P_i} \cdot \pd{P_i}{t} \cdot \pd{S_i}{t},
+ \end{aligned}
+\end{equation}
+\begin{equation} \label{eq:calcs2}
+ \begin{aligned}
+  \pd[2]{\phi}{t} &= \dd[2]{\phi}{P_{avg}} \cdot {\left( \pd{P_{avg}}{t}\right) }^2 + \dd{\phi}{P_{avg}} \cdot \pd[2]{P_{avg}}{t}, \\
+  \pd[2]{\rho_i}{t} &= \dd[2]{\rho_i}{P_i} \cdot {\left( \pd{P_i}{t}\right) }^2 + \dd{\rho_i}{P_i} \cdot \pd[2]{P_i}{t}, \\
+  \pd{q_i}{t} &= \dd{q_i}{P_{avg}} \cdot \pd{P_{avg}}{t},
+ \end{aligned}
+\end{equation}
+
+Путем преобразований получим уравнения для нахождения
+среднего давления и водонасыщенности:
+\begin{equation} \label{eq:full_pressure}
+ \begin{gathered}
+   \frac{1}{\rho_n} \diver{ (\rho_n\lambda_n\grad{ P_{avg}})} + \frac{1}{\rho_w} \diver{ (\rho_w\lambda_w\grad{ P_{avg}})}  +\\
+   + \frac{1}{2} \left[ \frac{1}{\rho_n} \diver{ (\rho_n\lambda_n\grad{ P_c})} + \frac{1}{\rho_w} \diver{ (\rho_w\lambda_w\grad{ P_c})} \right]  +\\
+   + q_t = \left[ \dd{\phi}{P_{avg}} + \phi (S_n c_n + S_w c_w) \right] \left( \pd{P_{avg}}{t} + \tau \pd[2]{P_{avg}}{t} \right) +\\
+   + \frac{1}{2} \phi (S_n c_n - S_w c_w) \left( \pd{P_{c}}{t} + \tau \pd[2]{P_c}{t} \right) +\\
+   + g \left[ \frac{1}{\rho_n} \diver{ (\rho_n^2\lambda_n\grad{ z})} + \frac{1}{\rho_w} \diver{ (\rho_w^2\lambda_w\grad{ z})} \right] +\\
+   + \tau \left[ \dd[2]{\phi}{P_{avg}} + \phi \left( \frac{1}{\rho_n} S_n \dd[2]{\rho_n}{P_n} + \frac{1}{\rho_w} S_w \dd[2]{\rho_w}{P_w} \right) \right. + \\
+   \left. + 2(S_n c_n + S_w c_w) \dd{\phi}{P_{avg}} \right] {\left( \pd{P_{avg}}{t}\right) }^2 +\\
+   + \tau \left[ \phi \left( \frac{1}{\rho_n} S_n \dd[2]{\rho_n}{P_n} - \frac{1}{\rho_w} S_w \dd[2]{\rho_w}{P_w} \right) \right. +\\
+   \left. + (S_n c_n - S_w c_w) \dd{\phi}{P_{avg}} \right] \pd{P_{avg}}{t} \cdot \pd{P_c}{t} +\\
+   + \frac{1}{4} \tau \phi \left( \frac{1}{\rho_n} S_n \dd[2]{\rho_n}{P_n} + \frac{1}{\rho_w} S_w \dd[2]{\rho_w}{P_w} \right) {\left( \pd{P_c}{t}\right) }^2 -\\
+  - \tau \left(\frac{1}{\rho_n}\dd{q_n}{P_{avg}} + \frac{1}{\rho_w}\dd{q_w}{P_{avg}}\right) \pd{P_{avg}}{t} +\\
+   + 2 \tau \phi \left(c_n \pd{S_n}{t} + c_w \pd{S_w}{t} \right) \pd{P_{avg}}{t}+ \\
+   + \tau \phi \left(c_n \pd{S_n}{t} - c_w \pd{S_w}{t} \right) \pd{P_c}{t},
+ \end{gathered}
+\end{equation}
+\begin{equation} \label{eq:full_saturation}
+ \begin{gathered}
+  \diver{(\rho_w h_w \grad{ S_w})} - \diver{(\rho_w f_w[\overrightarrow{u_t} + \lambda_n(\rho_w - \rho_n)g \grad{ z}])} + q_w =\\
+  = \rho_i S_i \dd{\phi}{P_{avg}} \cdot \pd{P_{avg}}{t} + \phi S_i \dd{\rho_i}{P_i} \cdot \pd{P_i}{t} + \phi \rho_i \pd{S_i}{t} +\\
+  + \tau \pd[2]{(\phi \rho_w S_w)}{t} - \tau \dd{q_w}{P_{avg}} \cdot \pd{P_{avg}}{t}.
+ \end{gathered}
+\end{equation}
+
+Уравнения~\eqref{eq:full_pressure},~\eqref{eq:full_saturation} решаются с помощью трехслойных явных разностных схем с центральными разностями.
