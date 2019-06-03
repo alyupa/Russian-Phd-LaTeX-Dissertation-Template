@@ -1,4 +1,4 @@
-\chapter{Математическая модель многофазного течения в пористой среде} \label{ch:ch1}
+\chapter{Математические модели многофазного течения в пористой среде} \label{ch:ch1}
 
 \newcommand*{\pd}[3][]{\ensuremath{\dfrac{\partial^{#1} #2}{\partial #3^{#1}}}}
 \newcommand*{\dd}[3][]{\ensuremath{\dfrac{\mathrm d^{#1} #2}{\mathrm d #3^{#1}}}}
@@ -55,7 +55,7 @@ $k_i$ -- относительная фазовая проницаемость $i
 При построении гиперболической модели вместо \eqref{eq:classic_system1} строится модифицированное уравнение неразрывности по аналогии с~квазигазодинамической системой уравнений~\cite{Chetverushkin-Mathmod}):
 \begin{equation}
  \label{mass_mod}
-  \frac{\partial (\phi \rho_i S_i)}{\partial t}+ div(\rho_i \overrightarrow{u_i}) = q_i + l c_i \cdot div(grad(\rho_i S_i)),
+  \frac{\partial (\phi \rho_i S_i)}{\partial t}+ \diver(\rho_i \overrightarrow{u_i}) = q_i + l c_i \cdot \diver(\grad(\rho_i S_i)),
 \end{equation}
 где $l$ - характерный масштаб (расстояние порядка сотни размеров зерен породы~\cite{Chetverushkin}),
 $c_i$ - скорость распространения звука в $i$-ой среде.
