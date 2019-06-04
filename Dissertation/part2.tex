@@ -31,7 +31,7 @@ $P_g$ через $P_w$ и капиллярные давления.
 в~формате, подходящем для~визуализации.
 \item Обмены данными при~многопроцессорных вычислениях.
 \end{enumerate}
-Для вычислений на шаге~\ref{roS} выбран класс явных двухслойных схем на равномерных декартовых сетках,
+Для вычислений на шаге~\ref{roS} выбран класс явных трехслойных схем на равномерных декартовых сетках,
 допускающих эффективное распараллеливание решения.
 Рассмотрены две различные схемы:
 \begin{itemize}
@@ -49,22 +49,16 @@ $P_g$ через $P_w$ и капиллярные давления.
     F_1=\ &\rho_w(P_w, T) S_w - (\widehat{\rho_w S_w}) \\
     F_2=\ &\rho_n(P_w+P_{cnw}(S_w)) S_n - (\widehat{\rho_n S_n}) \\
     F_3=\ &\rho_g(P_w+P_{cnw}(S_w)+P_{cgn}(S_g)) S_g - (\widehat{\rho_g S_g}) \\
-    F_4=\ & m \Big{(}S_w \big{(}\rho_w(P_w, T) H_w(T) - P_w\big{)} \\
-	 &+ S_n \big{(}\rho_n(P_w+P_{cnw}(S_w), T) H_n(T) - P_w - P_{cnw}(S_w)\big{)} \\
-	 &+ S_g \big{(}\rho_g(P_w+P_{cnw}(S_w)+P_{cgn}(S_g), T) H_g(T) - P_w - P_{cnw}(S_w) - P_{cgn}(S_g)\big{)}
-	 \Big{)}\\
-	 &+ (1-m) (\rho_r H_r - P_w) - \widehat{E} \\
-    F_5=\ &S_w+S_n+S_g - 1
+    F_4=\ &S_w+S_n+S_g - 1
   \end{aligned}
 \end{eqnarray*}
 \begin{equation}
 A=
 \begin{pmatrix}
-\dfrac{\partial{F_1}}{\partial{P_w}} & \dfrac{\partial{F_1}}{\partial{S_w}} & \dfrac{\partial{F_1}}{\partial{S_n}} & \dfrac{\partial{F_1}}{\partial{S_g}} & \dfrac{\partial{F_1}}{\partial{T}}\\[3mm]
-\dfrac{\partial{F_2}}{\partial{P_w}} & \dfrac{\partial{F_2}}{\partial{S_w}} & \dfrac{\partial{F_2}}{\partial{S_n}} & \dfrac{\partial{F_2}}{\partial{S_g}} & \dfrac{\partial{F_2}}{\partial{T}}\\[3mm]
-\dfrac{\partial{F_3}}{\partial{P_w}} & \dfrac{\partial{F_3}}{\partial{S_w}} & \dfrac{\partial{F_3}}{\partial{S_n}} & \dfrac{\partial{F_3}}{\partial{S_g}} & \dfrac{\partial{F_3}}{\partial{T}}\\[3mm]
-\dfrac{\partial{F_4}}{\partial{P_w}} & \dfrac{\partial{F_4}}{\partial{S_w}} & \dfrac{\partial{F_4}}{\partial{S_n}} & \dfrac{\partial{F_4}}{\partial{S_g}} & \dfrac{\partial{F_4}}{\partial{T}}\\[3mm]
-\dfrac{\partial{F_5}}{\partial{P_w}} & \dfrac{\partial{F_5}}{\partial{S_w}} & \dfrac{\partial{F_5}}{\partial{S_n}} & \dfrac{\partial{F_5}}{\partial{S_g}} & \dfrac{\partial{F_5}}{\partial{T}}\\[3mm]
+\dfrac{\partial{F_1}}{\partial{P_w}} & \dfrac{\partial{F_1}}{\partial{S_w}} & \dfrac{\partial{F_1}}{\partial{S_n}} & \dfrac{\partial{F_1}}{\partial{S_g}} \\[3mm]
+\dfrac{\partial{F_2}}{\partial{P_w}} & \dfrac{\partial{F_2}}{\partial{S_w}} & \dfrac{\partial{F_2}}{\partial{S_n}} & \dfrac{\partial{F_2}}{\partial{S_g}} \\[3mm]
+\dfrac{\partial{F_3}}{\partial{P_w}} & \dfrac{\partial{F_3}}{\partial{S_w}} & \dfrac{\partial{F_3}}{\partial{S_n}} & \dfrac{\partial{F_3}}{\partial{S_g}} \\[3mm]
+\dfrac{\partial{F_4}}{\partial{P_w}} & \dfrac{\partial{F_4}}{\partial{S_w}} & \dfrac{\partial{F_4}}{\partial{S_n}} & \dfrac{\partial{F_4}}{\partial{S_g}}.
 \end{pmatrix}
 \end{equation}
 
@@ -75,24 +69,21 @@ A=
 P_w\\
 S_w\\
 S_n\\
-S_g\\
-T
+S_g
 \end{pmatrix}^{new}
 =
 \begin{pmatrix}
 P_w\\
 S_w\\
 S_n\\
-S_g\\
-T
+S_g
 \end{pmatrix}
 -A^{-1}
 \begin{pmatrix}
 F_1\\
 F_2\\
 F_3\\
-F_4\\
-F_5
+F_4
 \end{pmatrix}
 \end{equation}\\
 
@@ -165,4 +156,4 @@ F_5
  \end{gathered}
 \end{equation}
 
-Уравнения~\eqref{eq:full_pressure},~\eqref{eq:full_saturation} решаются с помощью трехслойных явных разностных схем с центральными разностями.
+Уравнения~\eqref{eq:full_pressure},~\eqref{eq:full_saturation} решаются с помощью трехслойных явных разностных схем с направленными разностями.
