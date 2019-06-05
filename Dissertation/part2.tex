@@ -44,14 +44,12 @@ $P_g$ через $P_w$ и капиллярные давления.
 Находим решение методом Ньютона~\cite{Kalitkin} за семь
 итераций. Каждая итерация 
 представляет собой следующую последовательность действий:
-\begin{eqnarray*}
-  \begin{aligned}
+\begin{align*}
     F_1=\ &\rho_w(P_w) S_w - (\widehat{\rho_w S_w}) \\
     F_2=\ &\rho_n(P_w+P_{cnw}(S_w)) S_n - (\widehat{\rho_n S_n}) \\
     F_3=\ &\rho_g(P_w+P_{cnw}(S_w)+P_{cgn}(S_g)) S_g - (\widehat{\rho_g S_g}) \\
     F_4=\ &S_w+S_n+S_g - 1
-  \end{aligned}
-\end{eqnarray*}
+\end{align*}
 \begin{equation}
 A=
 \begin{pmatrix}
@@ -85,7 +83,7 @@ F_2\\
 F_3\\
 F_4
 \end{pmatrix}
-\end{equation}\\
+\end{equation}
 
 Обращаем матрицу $A$ методом Гаусса с~выбором главного элемента\cite{Kalitkin}.
 

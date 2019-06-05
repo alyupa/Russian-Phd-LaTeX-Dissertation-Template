@@ -1,8 +1,8 @@
 #!/bin/bash
 
 make clean
-latex dissertation
+pdflatex dissertation
 bibtex dissertation
 bibtex author
-latex dissertation
+pdflatex dissertation
 pdflatex dissertation

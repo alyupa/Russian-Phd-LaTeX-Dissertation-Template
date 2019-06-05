@@ -1,6 +1,8 @@
 \chapter{Использование высокопроизводительных вычислительных систем} \label{ch:ch4}
 
-В данной работе рассматривается применение технологии программно-аппаратной архитектуры параллельных вычислений CUDA, позволяющей производить вычисления на графических процессорах (GPU), к задачам трехфазной фильтрации.
+В данной работе рассматривается применение технологии программно-аппаратной архитектуры
+параллельных вычислений CUDA, позволяющей производить вычисления на графических
+процессорах~(GPU), к задачам трехфазной фильтрации.
 Портирование кода происходило на базе примеров из ~\cite{Sanders-CUDA}.
 Также реализована возможность многопроцессорных вычислений с использованием
 интерфейса передачи сообщений MPI.
@@ -21,7 +23,8 @@
 Перед непосредственным стартом вычислений оцениваем с помощью разработанного алгоритма расчетное время в зависимости от разбиения
 области, выясняем, какой способ деления области предпочтительнее и эффективнее в точки зрения распределения нагрузки между вычислительными узлами.
 
-\begin{figure}[!h]\center
+\begin{figure}[!ht]
+\centering
 \includegraphics[width=1\textwidth]{div.png} 
 \caption{Деление расчетной области на подобласти в одном, двух или трех направлениях}
 \label{pic_div}
@@ -39,7 +42,8 @@
 Ускорения и эффективность вычислений были проанализированы на примере трехмерной тестовой задачи~\ref{ch:ch3/sect3}.
 Время расчета измерялось с помощью счетчика, встроенного в программный код.
 
-\begin{figure}[!h]\center
+\begin{figure}[!ht]
+\centering
 \includegraphics[width=0.8\textwidth]{k100.pdf} 
 \caption{Структура гибридного кластера К100}
 \label{pic_k100}
@@ -56,8 +60,8 @@
 непосредственно для расчета, по~сравнению с временем, необходимым для обмена данными
 между процессорами.
 
-\begin{figure}[!h]
-\begin{center}
+\begin{figure}[!ht]
+\centering
 \begin{tikzpicture}
   \begin{axis}[axis lines=left, enlargelimits=true, grid=major, width=0.7\textwidth, xlabel={\textit{число процессоров}}, ylabel={\textit{ускорение}}]
     \pgfplotstableread{data/mpi_times.txt}{\mytable}
@@ -68,11 +72,10 @@
 \end{tikzpicture}
 \caption{Зависимость ускорения расчета тестовой задачи от числа процессоров}
 \label{mpi_speedup}
-\end{center}
 \end{figure}
 
-\begin{figure}[!h]
-\begin{center}
+\begin{figure}[!ht]
+\centering
 \begin{tikzpicture}
   \begin{axis}[axis lines=left, enlargelimits=true, grid=major, width=0.7\textwidth, xlabel={\textit{число процессоров}}, ylabel={\textit{эффективность}}]
     \pgfplotstableread{data/mpi_times.txt}{\mytable}
@@ -83,7 +86,6 @@
 \end{tikzpicture}
 \caption{Зависимость эффективности расчета тестовой задачи от числа процессоров}
 \label{mpi_eff}
-\end{center}
 \end{figure}
 
 Рассмотрим, как меняется время решения поставленной задачи при~проведении расчетов на~GPU
@@ -94,8 +96,8 @@
 размера сетки наблюдается все большее ускорение расчета. При~этом для~большей из~
 рассмотренных сеток (2.2 миллиона узлов) полученное ускорение составило 3.5 раза.
 
-\begin{figure}[!h]
-\begin{center}
+\begin{figure}[!ht]
+\centering
 \begin{tikzpicture}
   \begin{axis}[axis lines=left, enlargelimits=true, grid=major, width=0.7\textwidth, xlabel={\textit{число узлов сетки}}, ylabel={\textit{ускорение}}]
     \pgfplotstableread[skip first n=1]{data/cpu_vs_gpu.txt}{\mytable}
@@ -104,7 +106,6 @@
 \end{tikzpicture}
 \caption{Зависимость ускорения расчета тестовой задачи от числа узлов расчетной сетки на одном GPU по сравнению с одним CPU}
 \label{cuda_speedup}
-\end{center}
 \end{figure}
 
 Следует отметить, что~эффективное использование больших вычислительных
